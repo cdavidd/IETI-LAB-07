@@ -1,4 +1,4 @@
-package edu.escuelaing.ieti.app.pojos;
+package edu.escuelaing.ieti.app.model;
 
 public class Task {
     private String description;

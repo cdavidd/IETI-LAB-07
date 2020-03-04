@@ -4,6 +4,7 @@ public class Task {
     private String description;
     private User responsible;
     private String status;
+    private int id;
 
     public String getDescription() {
         return description;
@@ -27,6 +28,14 @@ public class Task {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 }

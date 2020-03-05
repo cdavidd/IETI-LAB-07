@@ -1,6 +1,8 @@
 package edu.escuelaing.ieti.app.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import edu.escuelaing.ieti.app.model.Task;
 import edu.escuelaing.ieti.app.model.User;
@@ -8,40 +10,50 @@ import edu.escuelaing.ieti.app.services.TaskService;
 
 public class TaskServiceImpl implements TaskService {
 
+    private ConcurrentHashMap<String, Task> taskMap = new ConcurrentHashMap<>();
+
     @Override
     public List<Task> geAll() {
-        // TODO Auto-generated method stub
-        return null;
+        List<Task> tasks = new ArrayList<>();
+        tasks.addAll(taskMap.values());
+        return tasks;
     }
 
     @Override
     public Task getById(String id) {
-        // TODO Auto-generated method stub
-        return null;
+        return taskMap.get(id);
     }
 
     @Override
     public List<Task> getByUserId(String userId) {
-        // TODO Auto-generated method stub
-        return null;
+        List<Task> tasks = new ArrayList<>();
+        for (Task t : taskMap.values()) {
+            if (t.getResponsible().getId().equals(userId)) {
+                tasks.add(t);
+            }
+        }
+        return tasks;
     }
 
     @Override
     public Task assignTaskToUser(String taskId, User user) {
-        // TODO Auto-generated method stub
-        return null;
+        Task t = null;
+        if (taskMap.containsKey(taskId)) {
+            t = taskMap.get(taskId);
+            t.setResponsible(user);
+        }
+        return t;
     }
 
     @Override
     public void remove(String taskId) {
-        // TODO Auto-generated method stub
+        taskMap.remove(taskId);
 
     }
 
     @Override
     public Task update(Task task) {
-        // TODO Auto-generated method stub
-        return null;
+        return taskMap.replace(task.getId(), task);
     }
 
 }

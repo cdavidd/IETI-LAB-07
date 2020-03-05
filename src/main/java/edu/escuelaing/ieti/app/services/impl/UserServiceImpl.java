@@ -1,40 +1,48 @@
 package edu.escuelaing.ieti.app.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 
 import edu.escuelaing.ieti.app.model.User;
 import edu.escuelaing.ieti.app.services.UserService;
 
 public class UserServiceImpl implements UserService {
 
+    private ConcurrentHashMap<String, User> userMap = new ConcurrentHashMap<>();
+
     @Override
     public List<User> getAll() {
-        // TODO Auto-generated method stub
-        return null;
+        List<User> users = new ArrayList<>();
+        users.addAll(userMap.values());
+        return users;
     }
 
     @Override
     public User getById(String userId) {
-        // TODO Auto-generated method stub
-        return null;
+        User user = null;
+        if (userMap.containsKey(userId)) {
+            user = userMap.get(userId);
+        }
+        return user;
     }
 
     @Override
     public User create(User user) {
-        // TODO Auto-generated method stub
-        return null;
+        userMap.put(user.getId(), user);
+        return user;
     }
 
     @Override
     public User update(User user) {
-        // TODO Auto-generated method stub
-        return null;
+        return userMap.replace(user.getId(), user);
     }
 
     @Override
     public void remove(String userId) {
-        // TODO Auto-generated method stub
-
+        if (userMap.containsKey(userId)) {
+            userMap.remove(userId);
+        }
     }
 
 }
